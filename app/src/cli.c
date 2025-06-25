@@ -58,6 +58,7 @@ enum {
     OPT_TUNNEL_PORT,
     OPT_NO_CLIPBOARD_AUTOSYNC,
     OPT_TCPIP,
+    OPT_MAX_REFS,
     OPT_RAW_KEY_EVENTS,
     OPT_NO_DOWNSIZE_ON_ERROR,
     OPT_OTG,
@@ -339,6 +340,12 @@ static const struct sc_option options[] = {
         .longopt_id = OPT_CODEC,
         .longopt = "codec",
         .argdesc = "value",
+    },
+    { 
+        .longopt_id = OPT_MAX_REFS,
+        .longopt = "max-refs", 
+        .argdesc = "N",
+        .text = "Max ref frames.\n"
     },
     {
         // deprecated
@@ -2612,6 +2619,9 @@ parse_args_with_getopt(struct scrcpy_cli_args *args, int argc, char *argv[],
                 return false;
             case OPT_DECODER:
                 opts->decoder = optarg;
+                break;
+            case OPT_MAX_REFS:
+                opts->max_refs = atoi(optarg);
                 break;
             case OPT_VIDEO_ENCODER:
                 opts->video_encoder = optarg;
