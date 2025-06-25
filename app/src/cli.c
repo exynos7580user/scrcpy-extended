@@ -114,6 +114,7 @@ enum {
     OPT_NO_VD_SYSTEM_DECORATIONS,
     OPT_NO_VD_DESTROY_CONTENT,
     OPT_DISPLAY_IME_POLICY,
+    OPT_DECODER,
 };
 
 struct sc_option {
@@ -1001,6 +1002,12 @@ static const struct sc_option options[] = {
                 "The list of possible codec options is available in the "
                 "Android documentation: "
                 "<https://d.android.com/reference/android/media/MediaFormat>",
+    },
+    {
+         .longopt_id = OPT_DECODER,
+         .longopt    = "decoder",
+         .argdesc    = "CODEC",
+         .text       = "Choose decoders like h264",
     },
     {
         .longopt_id = OPT_VIDEO_ENCODER,
@@ -2603,6 +2610,9 @@ parse_args_with_getopt(struct scrcpy_cli_args *args, int argc, char *argv[],
                 LOGE("--encoder has been removed, "
                      "use --video-encoder or --audio-encoder.");
                 return false;
+            case OPT_DECODER:
+                opts->decoder = optarg;
+                break;
             case OPT_VIDEO_ENCODER:
                 opts->video_encoder = optarg;
                 break;
