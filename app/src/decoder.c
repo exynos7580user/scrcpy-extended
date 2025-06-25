@@ -17,6 +17,10 @@ sc_decoder_open(struct sc_decoder *decoder, AVCodecContext *ctx) {
         return false;
     }
 
+    if (opts.max_refs > 0) {
+        ctx->refs = opts.max_refs;
+    }
+
     if (!sc_frame_source_sinks_open(&decoder->frame_source, ctx)) {
         av_frame_free(&decoder->frame);
         return false;
