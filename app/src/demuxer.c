@@ -171,7 +171,16 @@ run_demuxer(void *data) {
         goto end;
     }
 
-    const AVCodec *codec = avcodec_find_decoder(codec_id);
+    const AVCodec *codec;
+    if (demuxer->options.decoder) {
+        // We use the decoder that we chose
+        codec = avcodec_find_decoder_by_name(demuxer->options.decoder);
+        if (!codec) {
+            LOGE("Demuxer '%s': decoder '%s' nem található", demuxer->name, demuxer->options.decoder);
+        }
+    } else {
+        codec = avcodec_find_decoder(codec_id);
+    }
     if (!codec) {
         LOGE("Demuxer '%s': stream disabled due to missing decoder",
              demuxer->name);
